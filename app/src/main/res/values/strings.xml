@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">NewProject</string>
+    <string name="app_name">Twittew</string>
+    <string name="ar_name">Name</string>
+    <string name="ar_email">Email</string>
+    <string name="ar_age">Age</string>
+    <string name="ar_accept">OK</string>
 </resources>

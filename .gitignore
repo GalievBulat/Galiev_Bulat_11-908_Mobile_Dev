@@ -25,3 +25,10 @@ build/**
 *.iws
 classes/**
 target/**
+/build.gradle
+/app/build.gradle
+/gradle/wrapper/gradle-wrapper.properties
+/app/proguard-rules.pro
+/gradle.properties
+/settings.gradle
+/local.properties
