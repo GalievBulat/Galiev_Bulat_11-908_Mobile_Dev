@@ -1,6 +1,7 @@
 package com.kakadurf.newProject
 
 import android.content.Intent
+import android.content.Intent.EXTRA_TEXT
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
@@ -12,14 +13,7 @@ class IntentCatcher: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intent_catcher)
-        Toast.makeText(applicationContext,intent.data.toString(),Toast.LENGTH_LONG).show()
-
-        bt_send.setOnClickListener {
-            val intent =Intent()
-            intent.putExtra("name",et_name.text)
-            setResult(RESULT_OK, intent)
-            finish()
-        }
+        tv_text.text = intent.getStringExtra(EXTRA_TEXT)
     }
 
 }

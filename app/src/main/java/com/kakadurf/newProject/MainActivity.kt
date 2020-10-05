@@ -17,8 +17,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         bt_send_intent.setOnClickListener{
-            val intent = Intent(CATEGORY_MONKEY)
-            intent.data = Uri.parse("new_project://kakadurf.com:1234/hi")
+            val intent = Intent(ACTION_GET_CONTENT)
+            intent.type = ("image/jpeg")
             startActivityForResult(intent,INTENT_CODE)
         }
     }
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         var text = "wrong intent"
         if (requestCode == INTENT_CODE) {
             text = when(resultCode){
-                (Activity.RESULT_OK)-> "hi, " + data?.getCharSequenceExtra("name").toString()
+                (Activity.RESULT_OK)-> data?.data?.path.toString()
                 else -> "why to do what?"
             }
         }
