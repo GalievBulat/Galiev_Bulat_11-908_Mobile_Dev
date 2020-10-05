@@ -13,10 +13,11 @@ class RegistrationActivity : AppCompatActivity() {
             val name = et_name.text
             val email = et_email.text
             val age = et_age.text
-            val intent = Intent(this,MainActivity::class.java)
-            intent.putExtra("name",name)
-            intent.putExtra("email",email)
-            intent.putExtra("age",age)
+            val intent = Intent(this,MainActivity::class.java).apply{
+                putExtra("name",name)
+                putExtra("email",email)
+                putExtra("age",age)
+            }
             println(name)
             startActivity(intent)
         }
