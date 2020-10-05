@@ -23,13 +23,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        var text = "wrong intent"
         if (requestCode == INTENT_CODE) {
-            if (resultCode == Activity.RESULT_OK){
-                Toast.makeText(applicationContext,"hi, "
-                        + data?.getCharSequenceExtra("name"),Toast.LENGTH_LONG).show()
-            }else
-                Toast.makeText(applicationContext,"why to do what?",Toast.LENGTH_LONG).show()
-        } else
-            Toast.makeText(applicationContext,"wrong intent",Toast.LENGTH_LONG).show()
+            text = when(resultCode){
+                (Activity.RESULT_OK)-> "hi, " + data?.getCharSequenceExtra("name").toString()
+                else -> "why to do what?"
+            }
+        }
+        Toast.makeText(applicationContext,text,Toast.LENGTH_LONG).show()
     }
 }
