@@ -41,13 +41,13 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.19999999" />
+                app:layout_constraintVertical_bias="0.2" />
 
             <Button
                 android:id="@+id/bt_change_the_pr"
                 style="@style/Widget.AppCompat.Button"
-                android:layout_width="149dp"
-                android:layout_height="37dp"
+                android:layout_width="144dp"
+                android:layout_height="40dp"
                 android:background="@drawable/button"
                 android:shadowRadius="0"
                 android:singleLine="true"
@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="4dp"
                 android:text="\@kakadurf"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -91,7 +91,7 @@
 
             <ImageView
                 android:id="@+id/iv_icn3"
-                android:layout_width="22dp"
+                android:layout_width="24dp"
                 android:layout_height="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="44dp"
@@ -127,7 +127,7 @@
                 android:layout_marginTop="16dp"
                 android:text="7"
                 android:textColor="@android:color/black"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -137,7 +137,7 @@
 
             <TextView
                 android:id="@+id/tv_reads"
-                android:layout_width="61dp"
+                android:layout_width="60dp"
                 android:layout_height="28dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="20dp"
@@ -182,7 +182,7 @@
             <TextView
                 android:id="@+id/tv_tweets_answers"
                 android:layout_width="126dp"
-                android:layout_height="29dp"
+                android:layout_height="28dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
                 android:text="Твиты и ответы"
@@ -220,7 +220,7 @@
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.07"
+                app:layout_constraintHorizontal_bias="0.08"
                 app:layout_constraintStart_toEndOf="@+id/tv_tweets_answers"
                 app:layout_constraintTop_toBottomOf="@+id/tv_subribes_n"
                 app:layout_constraintVertical_bias="0.0" />
@@ -282,7 +282,7 @@
                 app:layout_constraintHorizontal_bias="0.052"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.421"
+                app:layout_constraintVertical_bias="0.4"
                 app:srcCompat="@drawable/avatar" />
 
             <TextView
@@ -298,7 +298,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/iv_avatar"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.19" />
+                app:layout_constraintVertical_bias="0.2" />
 
             <TextView
                 android:id="@+id/tv_annot"
@@ -311,7 +311,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/tv_nick"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.188" />
+                app:layout_constraintVertical_bias="0.2" />
 
             <TextView
                 android:id="@+id/tv_text"
@@ -328,12 +328,12 @@
 
             <ImageView
                 android:id="@+id/iv_repost"
-                android:layout_width="37dp"
-                android:layout_height="37dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/iv_likr_post"
-                app:layout_constraintHorizontal_bias="0.42"
+                app:layout_constraintHorizontal_bias="0.4"
                 app:layout_constraintStart_toEndOf="@+id/iv_comment"
                 app:layout_constraintTop_toBottomOf="@+id/tv_text"
                 app:layout_constraintVertical_bias="0.0"
@@ -354,8 +354,8 @@
 
             <ImageView
                 android:id="@+id/iv_likr_post"
-                android:layout_width="34dp"
-                android:layout_height="33dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -367,7 +367,7 @@
 
             <ImageView
                 android:id="@+id/iv_share"
-                android:layout_width="23dp"
+                android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -380,7 +380,7 @@
 
             <ImageView
                 android:id="@+id/iv_stat"
-                android:layout_width="29dp"
+                android:layout_width="28dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -394,7 +394,7 @@
             <TextView
                 android:id="@+id/tv_comments"
                 android:layout_width="26dp"
-                android:layout_height="33dp"
+                android:layout_height="34dp"
                 android:layout_marginTop="8dp"
                 android:text="2"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -407,7 +407,7 @@
             <TextView
                 android:id="@+id/tv_reposts"
                 android:layout_width="26dp"
-                android:layout_height="33dp"
+                android:layout_height="34dp"
                 android:layout_marginTop="8dp"
                 android:text="2"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -420,7 +420,7 @@
             <TextView
                 android:id="@+id/tv_likes4"
                 android:layout_width="26dp"
-                android:layout_height="33dp"
+                android:layout_height="34dp"
                 android:layout_marginTop="8dp"
                 android:text="2"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -466,7 +466,7 @@
     <ImageView
         android:id="@+id/iv_back1"
         android:layout_width="58dp"
-        android:layout_height="43dp"
+        android:layout_height="44dp"
         app:layout_constraintBottom_toBottomOf="@+id/ll_main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -478,7 +478,7 @@
     <ImageView
         android:id="@+id/iv_back2"
         android:layout_width="56dp"
-        android:layout_height="27dp"
+        android:layout_height="28dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/ll_main"
         app:layout_constraintEnd_toStartOf="@+id/ll_main"
@@ -503,7 +503,7 @@
 
     <ImageView
         android:id="@+id/iv_more2"
-        android:layout_width="47dp"
+        android:layout_width="48dp"
         android:layout_height="24dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/ll_main"
