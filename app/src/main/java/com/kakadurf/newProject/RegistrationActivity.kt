@@ -18,7 +18,6 @@ class RegistrationActivity : AppCompatActivity() {
                 putExtra("email",email)
                 putExtra("age",age)
             }
-            println(name)
             startActivity(intent)
         }
     }
