@@ -12,8 +12,15 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".IntentCatcher">
+            <intent-filter>
+                <action android:name="android.intent.category.MONKEY" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:host="kakadurf.com"
+                    android:scheme="new_project" />
             </intent-filter>
         </activity>
     </application>
