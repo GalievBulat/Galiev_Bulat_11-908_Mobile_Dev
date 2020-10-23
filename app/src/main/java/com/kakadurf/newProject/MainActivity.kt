@@ -13,10 +13,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val repository = UserRepository()
         val userAdapter =  UserAdapter(repository.getAll()){
-            val intent = Intent(this,SecondActivity::class.java)
-            intent.putExtra("id",it)
-            startActivity(intent)
+            sendRedirect(it)
         }
         rv_main.adapter = userAdapter
+    }
+    private fun sendRedirect(id:Int){
+        val intent = Intent(this,SecondActivity::class.java)
+        intent.putExtra("id",id)
+        startActivity(intent)
     }
 }
