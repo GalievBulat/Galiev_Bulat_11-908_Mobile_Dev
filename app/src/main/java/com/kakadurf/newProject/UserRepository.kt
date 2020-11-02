@@ -18,5 +18,10 @@ class UserRepository(){
             return null
         return list[id-1]
     }
+    fun add(user:User){
+        list.add(user)
+        list.sortBy { u: User->u.id }
+    }
+    fun size() = list.size
 
 }
