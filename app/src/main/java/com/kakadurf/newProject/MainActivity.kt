@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         botnav_bn.setOnNavigationItemReselectedListener {  }
-
+        supportFragmentManager
 
     }
     lateinit var iView: View
