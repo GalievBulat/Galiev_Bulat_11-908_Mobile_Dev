@@ -15,7 +15,7 @@ import java.lang.RuntimeException
 class Fragment2(): Fragment() {
     var userAdapter: UserAdapter?= null
     lateinit var main: View
-    val repository = UserRepository()
+    private val repository = MainActivity.repository
     lateinit var inflater:LayoutInflater
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,12 +64,16 @@ class Fragment2(): Fragment() {
                      et_pos :EditText){
         val highlight = et_highlight.text.toString()
         val desc = et_desc.text.toString()
-        var pos = et_pos.text.toString().toInt()
-        if (pos>repository.size())
-            pos = repository.size()
+        var pos:Int
+        pos = if (et_pos.text.toString()!="") et_pos.text.toString().toInt()
+        else repository.size()+1
+        if (pos>repository.size()+1)
+            pos = repository.size()+1
         if (pos<0){
             pos = 0
         }
+        println(pos)
+
         val list =repository.getAll() as ArrayList
          for(i in 1 until list.size) if(list[i].id == pos) {
             return

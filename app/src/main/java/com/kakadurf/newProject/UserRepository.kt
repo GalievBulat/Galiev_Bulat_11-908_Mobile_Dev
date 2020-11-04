@@ -1,7 +1,9 @@
 package com.kakadurf.newProject
 
 class UserRepository(){
-    private val list= ArrayList<User>()
+    companion object {
+        private val list = ArrayList<User>()
+    }
     init {
         with(list){
             add(User(1, "Kostyan","rer","a hobo"))

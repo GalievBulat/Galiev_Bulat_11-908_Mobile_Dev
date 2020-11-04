@@ -22,7 +22,8 @@ class Fragment3(): Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapt = CardAdapter(listOf(CustomPagerAdapt(listOf(R.drawable.ic_launcher_foreground,R.drawable.ic_launcher_background)),CustomPagerAdapt(listOf(R.drawable.ic_launcher_foreground,R.drawable.ic_launcher_background))))
+        val adapt = CardAdapter(listOf(Post("hi mate",CustomPagerAdapt(listOf(R.drawable.ic_launcher_foreground,R.drawable.ic_launcher_background))),
+            Post("hi",CustomPagerAdapt(listOf(R.drawable.avatar,R.drawable.ic_launcher_background)))))
         rv_rv2.adapter = adapt
     }
 }

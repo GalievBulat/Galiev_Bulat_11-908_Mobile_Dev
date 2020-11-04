@@ -1,13 +1,11 @@
 package com.kakadurf.newProject
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.frame31.*
+import kotlinx.android.synthetic.main.pictures.*
 
 public class CustomPagerAdapt(val list: List<Int>):
     RecyclerView.Adapter<PictHolder>() {
@@ -28,7 +26,7 @@ class PictHolder(override val containerView: View) : RecyclerView.ViewHolder(con
     private var photo: Int? = null
     companion object{
         fun getInstance(parent: ViewGroup): PictHolder =
-            PictHolder(LayoutInflater.from(parent.context).inflate(R.layout.frame31,parent,false))
+            PictHolder(LayoutInflater.from(parent.context).inflate(R.layout.pictures,parent,false))
     }
     fun bind(photo: Int) {
         this.photo = photo

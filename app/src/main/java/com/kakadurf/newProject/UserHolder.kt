@@ -15,7 +15,7 @@ class UserHolder(override val containerView: View,private val itemClick: (id: In
     }
     fun bind(user: User) {
         this.user = user
-        containerView.setOnClickListener{
+        iv_cancel.setOnClickListener{
             itemClick(user.id)
         }
         with(user) {
