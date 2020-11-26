@@ -1,12 +1,14 @@
 package com.kakadurf.newProject
 
+import java.lang.RuntimeException
+
 class MusicRepository {
     private val list:ArrayList<MusicPiece> = ArrayList(16)
     init {
         val cover:Int = R.drawable.am_humbug
-        list.add( MusicPiece("Cornerstone",cover,0,"","Arctic Monkeys","Humbug"))
-        list.add(MusicPiece("Crying Lightning",cover,0,"","Arctic Monkeys","Humbug"))
-        list.add(MusicPiece("Dance Little Liar",cover,0,"","Arctic Monkeys","Humbug"))
+        list.add( MusicPiece("Cornerstone",cover,R.raw.am_cornerstone,"","Arctic Monkeys","Humbug"))
+        list.add(MusicPiece("Crying Lightning",cover,R.raw.am_crying_lightning,"","Arctic Monkeys","Humbug"))
+        list.add(MusicPiece("Dance Little Liar",cover,R.raw.am_dance_little_liar,"","Arctic Monkeys","Humbug"))
         list.add(MusicPiece("Dangerous Animals",cover,0,"","Arctic Monkeys","Humbug"))
         list.add(MusicPiece("Fire And The Thud",cover,0,"","Arctic Monkeys","Humbug"))
         list.add(MusicPiece("My Propeller",cover,0,"","Arctic Monkeys","Humbug"))
@@ -18,5 +20,25 @@ class MusicRepository {
 
     public fun getAll():List<MusicPiece>{
         return list
+    }
+    fun findNext(musicPiece: MusicPiece): MusicPiece{
+        if (list.isNotEmpty()) {
+            val ind = list.indexOf(musicPiece)
+            return if (ind == list.size - 1)
+                list[0]
+            else
+                list[ind + 1]
+        }else throw RuntimeException("empty list")
+    }
+    fun findPrev(musicPiece: MusicPiece): MusicPiece{
+        if (list.isNotEmpty()) {
+            val ind = list.indexOf(musicPiece)
+            if (ind == -1)
+                throw RuntimeException("no element")
+            return if (ind == 0)
+                list[list.size-1]
+            else
+                list[ind - 1]
+        }else throw RuntimeException("empty list")
     }
 }

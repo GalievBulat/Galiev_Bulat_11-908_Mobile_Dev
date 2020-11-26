@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     tools:context=".MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -23,8 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:fontFamily="serif"
-        android:text="Music"
-        android:textColor="#000000"
+        android:text="That's what I call music"
+        android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

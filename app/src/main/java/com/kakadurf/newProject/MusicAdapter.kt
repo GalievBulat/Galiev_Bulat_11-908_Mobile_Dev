@@ -26,12 +26,23 @@ class MusicHolder(override val containerView: View): RecyclerView.ViewHolder(con
         tv_album.text = music.album
         tv_author.text = music.author
         iv_cover.setImageResource(music.cover)
-        iv_play.setOnClickListener {
-            //
-        }
-        iv_lyrics.setOnClickListener {
+        with(ServiceAPI) {
+            iv_play.setOnClickListener {
+                playMusic(music)
+            }
+            iv_lyrics.setOnClickListener {
 //            val myDialogFragment = Dialog(music)
 //            myDialogFragment.show(manager, "myDialog")
+            }
+            iv_cancel.setOnClickListener {
+                stopMusic()
+            }
+            iv_next.setOnClickListener {
+                next()
+            }
+            iv_prev.setOnClickListener {
+                prev()
+            }
         }
     }
     companion object{
