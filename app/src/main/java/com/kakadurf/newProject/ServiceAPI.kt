@@ -1,5 +1,5 @@
 package com.kakadurf.newProject
-public class ServiceAPI {
+ class ServiceAPI {
     companion object {
         var binder: Aidl? = null
         fun playMusic(musicPiece: MusicPiece) {

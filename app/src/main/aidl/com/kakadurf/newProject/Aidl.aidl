@@ -1,6 +1,6 @@
 
 package com.kakadurf.newProject;
-
+import com.kakadurf.newProject.MListener;
 interface Aidl {
     /**
      * Demonstrates some basic types that you can use as parameters
@@ -15,6 +15,7 @@ interface Aidl {
     void pause();
     oneway void pass(in MusicPiece composition);
     int getPid();
+    void onMusicComplete(MListener listener);
 }
 
 parcelable MusicPiece;

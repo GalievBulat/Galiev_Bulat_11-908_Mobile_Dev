@@ -2,32 +2,36 @@ package com.kakadurf.newProject
 
 import android.content.Context
 import android.media.MediaPlayer
-import android.util.Log
-import javax.security.auth.callback.Callback
 
-public class MediaManager(private val context: Context,private val callback: com.kakadurf.newProject.Callback){
-
+public class MediaManager(private val context: Context){
+    var binder: MusicBinder? = null
     private var mediaPlayer = MediaPlayer()
 
     fun passTrack(media:Media){
         if (mediaPlayer.isPlaying) {
             close()
         }
-        Log.d("hi", media.toString())
+        com.kakadurf.newProject.helper.System.println("hrrr")
+        binder?.listener?.listen()
+        System.out.println(media.toString())
         mediaPlayer = MediaPlayer.create(context, media.getMedia())
         mediaPlayer.setOnPreparedListener { mediaPlayer.start() }
         mediaPlayer.setOnCompletionListener {
             close()
-            callback.call()
+            com.kakadurf.newProject.helper.System.println("hrrr")
+            binder?.listener?.listen()
         }
     }
     private fun close(){
         mediaPlayer.stop()
-        mediaPlayer.release()
+        mediaPlayer.reset()
     }
     fun pauseTrack(){
+
         if (mediaPlayer.isPlaying){
             mediaPlayer.pause()
+            com.kakadurf.newProject.helper.System.println("hehhe")
+            binder?.listener?.listen()
         }
     }
     fun stopTrack(){

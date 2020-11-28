@@ -10,7 +10,10 @@ import androidx.annotation.RawRes
 data class MusicPiece(val name:String,
 @DrawableRes val cover: Int,
 @RawRes val music:Int, val text:String, val author:String, val album:String): Parcelable, Media {
-    private var duration:Int= 0;
+    private var duration:Int= 0
+     var paused: Boolean = false
+
+
     constructor(parcel: Parcel) : this(
         parcel.readString()?:"",
         parcel.readInt(),
@@ -18,8 +21,7 @@ data class MusicPiece(val name:String,
         parcel.readString()?:"",
         parcel.readString()?:"",
         parcel.readString()?:""
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)

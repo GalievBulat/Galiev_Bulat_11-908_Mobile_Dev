@@ -1,9 +1,11 @@
 package com.kakadurf.newProject
 
-class MusicBinder(private val mediaManager: MediaManager) : Aidl.Stub() {
+import com.kakadurf.newProject.helper.System
+
+class MusicBinder( val mediaManager: MediaManager) : Aidl.Stub() {
+     var listener:MListener? = null
 
    private var currentTrack:MusicPiece? = null
-
     override fun pause() {
         mediaManager.pauseTrack()
     }
@@ -29,6 +31,10 @@ class MusicBinder(private val mediaManager: MediaManager) : Aidl.Stub() {
     override fun prev() {
         currentTrack = currentTrack?.let { MusicRepository().findPrev(it)}
         currentTrack?.let { mediaManager.passTrack(it) }
+    }
+
+    override fun onMusicComplete(listener: MListener?) {
+        this.listener = listener
     }
 
     override fun stop() {

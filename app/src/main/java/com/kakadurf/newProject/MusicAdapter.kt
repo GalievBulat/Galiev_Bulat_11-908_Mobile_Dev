@@ -1,16 +1,18 @@
 package com.kakadurf.newProject
 
-import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.piece_of_music.*
-import java.util.zip.Inflater
 
 class MusicAdapter(private val musicList:List<MusicPiece>): RecyclerView.Adapter<MusicHolder>(){
+    fun endSong(id:Int){
+        musicList[id].paused = true
+        notifyDataSetChanged()
+        //notifyItemChanged(id)
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicHolder =MusicHolder.create(parent)
 
 
@@ -24,8 +26,11 @@ class MusicHolder(override val containerView: View): RecyclerView.ViewHolder(con
     fun bind(music: MusicPiece) {
         tv_name.text = music.name
         tv_album.text = music.album
-        tv_author.text = music.author
+        aaaaa.text = music.author
         iv_cover.setImageResource(music.cover)
+        if (music.paused){
+            iv_play.setImageResource(R.drawable.ic_launcher_background)
+        }
         with(ServiceAPI) {
             iv_play.setOnClickListener {
                 playMusic(music)
