@@ -1,8 +1,5 @@
 package com.kakadurf.newProject
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -12,37 +9,35 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
-import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import com.kakadurf.newProject.helper.System
+import kotlinx.android.synthetic.main.the_main_thing.*
 
 class MainActivity : AppCompatActivity() {
 
-    object Listener: MListener.Stub() {
 
-        override fun listen() {
-            System.println("ll")
-            musicAdapter.endSong(0)
+    companion object{
+        lateinit var musicAdapter:MusicAdapter
+        val handler =  Handler{
+            musicAdapter.endSong(it.what)
+            true
         }
 
+        val api:MusicPlayingService = ServiceAPI()
     }
-    companion object{
 
-        lateinit var musicAdapter:MusicAdapter
-    }
 
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        super.onCreate(savedInstanceState)
 
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
+        //setContentView(R.layout.the_main_thing)
 
 
         /*val view = RemoteViews(packageName,R.layout.alert)
@@ -58,30 +53,30 @@ class MainActivity : AppCompatActivity() {
         service.createNotificationChannel(channel)
         service.notify(1,notification.build())*/
 
-
-
         val repository =  MusicRepository()
-        musicAdapter = MusicAdapter(repository.getAll())
+        musicAdapter = MusicAdapter(repository.getAll(),api)
         rv_main.adapter = musicAdapter
         rv_main.layoutManager = LinearLayoutManager(this)
         val intent = Intent(this,MusicHandlingService::class.java)
         startForegroundService(intent)
         bindService(intent,ConnectionToPlayer, Context.BIND_AUTO_CREATE)
+
     }
     override fun onStop() {
         super.onStop()
         unbindService(ConnectionToPlayer)
     }
 
-    object ConnectionToPlayer: ServiceConnection{
 
+     object ConnectionToPlayer: ServiceConnection{
         override fun onServiceDisconnected(name: ComponentName?) {
+
             System.out.println("hi")
         }
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            ServiceAPI.binder = Aidl.Stub.asInterface(service)
-            ServiceAPI.binder?.onMusicComplete(Listener )
+            api.setBinder(Aidl.Stub.asInterface(service))
+
         }
     }
 

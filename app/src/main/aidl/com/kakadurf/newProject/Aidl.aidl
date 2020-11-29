@@ -8,10 +8,10 @@ interface Aidl {
      */
     /*void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat,
             double aDouble, String aString);*/
-    void stop();
-    void play();
-    void next();
-    void prev();
+    boolean stop();
+    void resume();
+//    void next(int id);
+//    void prev(int id);
     void pause();
     oneway void pass(in MusicPiece composition);
     int getPid();
