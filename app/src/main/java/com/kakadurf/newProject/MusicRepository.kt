@@ -1,7 +1,5 @@
 package com.kakadurf.newProject
 
-import java.lang.RuntimeException
-
 class MusicRepository {
     companion object {
 

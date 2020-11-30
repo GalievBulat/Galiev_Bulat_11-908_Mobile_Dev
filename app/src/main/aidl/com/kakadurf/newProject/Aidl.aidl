@@ -13,7 +13,7 @@ interface Aidl {
 //    void next(int id);
 //    void prev(int id);
     void pause();
-    oneway void pass(in MusicPiece composition);
+    void pass(in MusicPiece composition);
     int getPid();
     void onMusicComplete(MListener listener);
 }

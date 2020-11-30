@@ -1,9 +1,7 @@
 package com.kakadurf.newProject
 
-import android.media.MediaMetadataRetriever
 import android.os.Parcel
 import android.os.Parcelable
-import android.provider.MediaStore
 import androidx.annotation.DrawableRes
 import androidx.annotation.RawRes
 
@@ -11,8 +9,7 @@ data class MusicPiece(val name:String,
 @DrawableRes val cover: Int,
 @RawRes val music:Int, val text:String, val author:String, val album:String): Parcelable, Media {
     private var duration:Int= 0
-     var playing: Boolean = false
-    var stopped: Boolean = false
+    //var playing: Boolean = false
 
 
     constructor(parcel: Parcel) : this(

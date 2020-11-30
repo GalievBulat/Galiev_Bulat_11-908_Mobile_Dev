@@ -1,85 +1,112 @@
 package com.kakadurf.newProject
 
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
-import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat.getSystemService
 import com.kakadurf.newProject.helper.System
 
-@RequiresApi(Build.VERSION_CODES.O)
-class ServiceAPI(val context: Context): MusicPlayingService, AutoCloseable {
-        private val musicRepository = MusicRepository()
-        private val notifService = com.kakadurf.newProject.NotificationThingEhh(context)
-        private var currentTrack:MusicPiece? = null
+class ServiceAPI(context: Context): MusicPlayingService, AutoCloseable {
+    private val musicRepository = MusicRepository()
+    private val notifService = NotificationThingEhh(context)
 
-         var mBinder: Aidl? = null
+    companion object {
+        var currentTrack: MusicPiece? = null
+        var playing: Boolean = false
+        var next = false
+    }
+    var mBinder: Aidl? = null
 
-    private fun setCurrent(ct:MusicPiece){
-
+    private fun updNotif(playing: Boolean = true){
+        notifService.doNotify(notifService.makeNotif(playing),
+            currentTrack?.name ?: "name", currentTrack?.author?:"band")
+    }
+    private fun setCurrent(ct:MusicPiece) {
         currentTrack = ct
         mBinder?.onMusicComplete(object : MListener.Stub() {
             override fun listen() {
                 System.println(currentTrack.toString() + " closed")
                 currentTrack?.let {
                     MainActivity.handler.sendEmptyMessage(
-                        musicRepository.find(it))
+                        musicRepository.find(it)
+                    )
                 }
             }
         })
-        currentTrack?.let {  Fr2.handler?.sendEmptyMessage(musicRepository.find(it))}
-        /*
-        MusicHandlingService.notification = MusicHandlingService.notification?.apply {
-            setContentTitle(currentTrack?.name).setContentText(currentTrack?.author)
+        currentTrack?.let {
+            Fr2.musicClosingHandler?.sendEmptyMessage(musicRepository.find(it))
         }
-        MusicHandlingService.handler?.sendEmptyMessage(0)*/
-        System.println("upd")
-
-        notifService.doNotify(currentTrack?.name ?: "name",currentTrack?.author ?: "author")
     }
 
-        override fun playMusic(musicPiece: MusicPiece) {
-            val prev = currentTrack
-            if (prev != musicPiece) {
-                prev?.run {
-                    mBinder?.stop()
-                }
-                mBinder?.pass(musicPiece)
-                setCurrent(musicPiece)
-            }  else {
-                mBinder?.resume()
+    override fun playNewMusic(musicPiece: MusicPiece) {
+        val prev = currentTrack
+        if (prev != musicPiece) {
+            prev?.run {
+                mBinder?.stop()
             }
+            mBinder?.pass(musicPiece)
+            setCurrent(musicPiece)
+
+        }  else {
+            mBinder?.resume()
         }
+        playing = true
+        updNotif(playing)
+    }
     override fun stopMusic() {
-           mBinder?.stop()
-       }
+        mBinder?.stop()
+        currentTrack = null
+        playing = false
+        updNotif(playing)
+    }
     override fun next(int: Int) {
-            setCurrent(musicRepository.findNext(int))
-            mBinder?.pass(currentTrack)
+        setCurrent(musicRepository.findNext(int))
+        mBinder?.pass(currentTrack)
+        System.println("nexted")
+        playing = true
+        next = true
+        updNotif(playing)
     }
     override fun nextFromCurrent() {
-        currentTrack?.let {  setCurrent(musicRepository.findNext(it))}
+        currentTrack?.let {setCurrent(musicRepository.findNext(it))}
+        //currentTrack?.playing= true
         mBinder?.pass(currentTrack)
+        playing = true
+        next = true
+        updNotif(playing)
     }
     override fun prevFromCurrent() {
         currentTrack?.let {  setCurrent(musicRepository.findPrev(it))}
+        //currentTrack?.playing= true
         mBinder?.pass(currentTrack)
+        playing = true
+        next = true
+        updNotif(playing)
     }
 
     override fun prev(int: Int) {
         setCurrent(musicRepository.findPrev(int))
+        //currentTrack?.playing= true
         mBinder?.pass(currentTrack)
+        playing = true
+        next = true
+        updNotif(playing)
     }
     override fun pause(){
-           mBinder?.pause()
+        mBinder?.pause()
         currentTrack?.let {
         MainActivity.handler.sendEmptyMessage(
             musicRepository.find(it) )}
-        }
+        playing = false
+        updNotif(playing)
+    }
+    override fun resume(){
+        mBinder?.resume()
+        currentTrack?.let {
+            MainActivity.handler.sendEmptyMessage(
+                musicRepository.find(it) )}
+        playing = true
+        updNotif(playing)
+    }
+
 
     override fun setBinder(binder: Aidl) {
         mBinder =binder
@@ -89,9 +116,13 @@ class ServiceAPI(val context: Context): MusicPlayingService, AutoCloseable {
         return mBinder
     }
     override fun close(){
-        currentTrack?.playing = false
+        //currentTrack?.playing = false
+        playing = false
+        mBinder?.stop()
+        MainActivity.handler.sendEmptyMessage(
+            0 )
+        currentTrack = null
+
     }
-    val isRunning
-        get() = mBinder==null
 
 }

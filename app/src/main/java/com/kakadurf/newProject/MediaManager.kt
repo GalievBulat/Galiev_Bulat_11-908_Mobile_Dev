@@ -10,7 +10,8 @@ class MediaManager(private val context: Context){
 
     fun passTrack(media:Media){
         if (mediaPlayer.isPlaying) {
-            close()
+            mediaPlayer.stop()
+            mediaPlayer.reset()
         }
         System.out.println(media.toString())
         mediaPlayer = MediaPlayer.create(context, media.getMedia())

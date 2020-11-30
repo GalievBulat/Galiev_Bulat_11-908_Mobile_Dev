@@ -3,14 +3,14 @@ package com.kakadurf.newProject
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.kakadurf.newProject.helper.System
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.piece_of_music.*
 
 class MusicAdapter(private val musicList:List<MusicPiece>,private val musicPlayingService: MusicPlayingService): RecyclerView.Adapter<MusicHolder>(){
     fun endSong(id:Int){
-        musicList[id].playing= false
+        ServiceAPI.playing= false
         notifyDataSetChanged()
         //notifyItemChanged(id)
     }
@@ -42,25 +42,31 @@ class MusicHolder(override val containerView: View,private val musicPlayingServi
         musicPlayingService.stopMusic()
     }
     fun bind(music: MusicPiece,id:Int) {
+        if (ServiceAPI.next )
+            ServiceAPI.playing = true
+        ServiceAPI.next = false
         tv_name.text = music.name
         tv_album.text = music.album
         tv_author.text = music.author
         iv_cover.setImageResource(music.cover)
-        changeState(music.playing)
-        if (music.playing){
+        var isCurrentAndPlaying = music == ServiceAPI.currentTrack && ServiceAPI.playing
+        changeState(isCurrentAndPlaying)
+        System.println("next " + ServiceAPI.playing)
+        if (isCurrentAndPlaying){
             iv_cancel.visibility = View.VISIBLE
         } else {
             iv_cancel.visibility = View.GONE
         }
         with(musicPlayingService) {
             iv_play.setOnClickListener {
-                music.playing = !music.playing
-                changeState(music.playing)
-                if (music.playing) {
-                    playMusic(music)
+                isCurrentAndPlaying = music == ServiceAPI.currentTrack && ServiceAPI.playing
+                if (!isCurrentAndPlaying) {
+                    playNewMusic(music)
+                    changeState(true)
                     iv_cancel.visibility = View.VISIBLE
-                } else{
+                } else {
                     pause()
+                    changeState(false)
                 }
             }
             iv_lyrics.setOnClickListener {
@@ -73,6 +79,7 @@ class MusicHolder(override val containerView: View,private val musicPlayingServi
             iv_next.setOnClickListener {
                 close()
                 next(id)
+                System.println("next " + ServiceAPI.playing)
             }
             iv_prev.setOnClickListener {
                 close()

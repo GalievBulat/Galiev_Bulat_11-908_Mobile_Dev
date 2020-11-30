@@ -1,7 +1,5 @@
 package com.kakadurf.newProject
 
-import com.kakadurf.newProject.helper.System
-
 class MusicBinder( val mediaManager: MediaManager) : Aidl.Stub() {
      var listener:MListener? = null
 
@@ -18,7 +16,6 @@ class MusicBinder( val mediaManager: MediaManager) : Aidl.Stub() {
     }*/
 
     override fun pass(composition: MusicPiece?) {
-
         composition?.let { mediaManager.passTrack(it) }
     }
 

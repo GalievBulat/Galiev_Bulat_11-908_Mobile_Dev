@@ -2,14 +2,16 @@ package com.kakadurf.newProject
 
 import android.content.*
 import android.net.ConnectivityManager
-import android.net.Uri
-import android.os.*
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
+import android.os.Bundle
+import android.os.Handler
+import android.os.IBinder
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.activity_main.*
 import com.kakadurf.newProject.helper.System
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,18 +20,21 @@ class MainActivity : AppCompatActivity() {
         lateinit var musicAdapter:MusicAdapter
         val handler =  Handler{
             musicAdapter.endSong(it.what)
+            System.println("flushed!")
             true
         }
         var api:MusicPlayingService? = null
     }
 
 
+    private lateinit var  br: BroadcastReceiver
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         api = ServiceAPI(applicationContext)
+        render(Fr2())
 
         botnav_bn.setOnNavigationItemSelectedListener {
             when (it.itemId){
@@ -48,21 +53,12 @@ class MainActivity : AppCompatActivity() {
         botnav_bn.setOnNavigationItemReselectedListener {  }
         supportFragmentManager
 
-        val br: BroadcastReceiver = StateReceiver()
+         br =  StateReceiver()
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         filter.addAction("com.kakadurf.media_action")
         filter.addDataScheme("kakadurf")
         this.registerReceiver(br, filter)
 
-
-       /* frl_frame.setOnClickListener {
-            System.println("hii")
-            val intent = Intent("com.kakadurf.media_action")
-            intent.extras?.putString("action","pause")
-            sendBroadcast(intent)
-
-        }*/
-//        RemoteViews("com.kakadurf.newProject",R.layout.piece_of_music).apply(applicationContext,frl_frame)
 
         //setContentView(R.layout.the_main_thing)
 
@@ -103,6 +99,7 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         unbindService(ConnectionToPlayer)
         api?.close()
+        this.unregisterReceiver(br)
     }
 
 

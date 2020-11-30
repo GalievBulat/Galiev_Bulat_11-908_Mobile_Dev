@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-
 import kotlinx.android.synthetic.main.frame2.*
 
 class Fr2: Fragment() {
@@ -31,15 +29,13 @@ class Fr2: Fragment() {
             tv_author.text = cMusicPiece?.author
             cMusicPiece?.cover?.let { iv_cover.setImageResource(it) }
         }
-        handler =     Handler{
+        musicClosingHandler =Handler{
             cMusicPiece = musicSet.get(it.what)
-
             true
         }
     }
     companion object{
         private var cMusicPiece: MusicPiece? = null
-        var handler:Handler? = null
-
+        var musicClosingHandler:Handler? = null
     }
 }
