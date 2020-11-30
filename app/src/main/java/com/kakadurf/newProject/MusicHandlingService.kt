@@ -24,4 +24,8 @@ class MusicHandlingService: Service(){
         return binder
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
 }
