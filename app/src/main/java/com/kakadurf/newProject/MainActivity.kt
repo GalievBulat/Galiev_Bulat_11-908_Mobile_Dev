@@ -86,7 +86,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    lateinit var iView: View
     private fun render ( fr: Fragment){
         val trans = supportFragmentManager.beginTransaction()
         with(trans) {
@@ -97,8 +96,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
+        /*api?.close()*/
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
         unbindService(ConnectionToPlayer)
-        api?.close()
         this.unregisterReceiver(br)
     }
 
