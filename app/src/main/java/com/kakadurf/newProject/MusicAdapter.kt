@@ -49,10 +49,8 @@ class MusicHolder(override val containerView: View,private val musicPlayingServi
         changeState(music.playing)
         if (music.playing){
             iv_cancel.visibility = View.VISIBLE
-
         } else {
             iv_cancel.visibility = View.GONE
-            changeState(false)
         }
         with(musicPlayingService) {
             iv_play.setOnClickListener {
