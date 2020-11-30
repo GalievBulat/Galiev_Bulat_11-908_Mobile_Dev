@@ -26,7 +26,7 @@ class ServiceAPI(context: Context): MusicPlayingService, AutoCloseable {
                 System.println(currentTrack.toString() + " closed")
                 currentTrack?.let {
                     MainActivity.handler.sendEmptyMessage(
-                        musicRepository.find(it)
+                        -1
                     )
                 }
             }
@@ -67,7 +67,6 @@ class ServiceAPI(context: Context): MusicPlayingService, AutoCloseable {
     }
     override fun nextFromCurrent() {
         currentTrack?.let {setCurrent(musicRepository.findNext(it))}
-        //currentTrack?.playing= true
         mBinder?.pass(currentTrack)
         playing = true
         next = true
@@ -75,7 +74,6 @@ class ServiceAPI(context: Context): MusicPlayingService, AutoCloseable {
     }
     override fun prevFromCurrent() {
         currentTrack?.let {  setCurrent(musicRepository.findPrev(it))}
-        //currentTrack?.playing= true
         mBinder?.pass(currentTrack)
         playing = true
         next = true
@@ -84,7 +82,6 @@ class ServiceAPI(context: Context): MusicPlayingService, AutoCloseable {
 
     override fun prev(int: Int) {
         setCurrent(musicRepository.findPrev(int))
-        //currentTrack?.playing= true
         mBinder?.pass(currentTrack)
         playing = true
         next = true
@@ -93,16 +90,14 @@ class ServiceAPI(context: Context): MusicPlayingService, AutoCloseable {
     override fun pause(){
         mBinder?.pause()
         currentTrack?.let {
-        MainActivity.handler.sendEmptyMessage(
-            musicRepository.find(it) )}
+        MainActivity.handler.sendEmptyMessage(-1)}
         playing = false
         updNotif(playing)
     }
     override fun resume(){
         mBinder?.resume()
         currentTrack?.let {
-            MainActivity.handler.sendEmptyMessage(
-                musicRepository.find(it) )}
+            MainActivity.handler.sendEmptyMessage(-1)}
         playing = true
         updNotif(playing)
     }
@@ -116,13 +111,10 @@ class ServiceAPI(context: Context): MusicPlayingService, AutoCloseable {
         return mBinder
     }
     override fun close(){
-        //currentTrack?.playing = false
         playing = false
         mBinder?.stop()
         MainActivity.handler.sendEmptyMessage(
-            0 )
+            -1 )
         currentTrack = null
-
     }
-
 }

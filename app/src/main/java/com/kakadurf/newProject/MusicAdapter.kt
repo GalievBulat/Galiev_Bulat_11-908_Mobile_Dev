@@ -10,14 +10,13 @@ import kotlinx.android.synthetic.main.piece_of_music.*
 
 class MusicAdapter(private val musicList:List<MusicPiece>,private val musicPlayingService: MusicPlayingService): RecyclerView.Adapter<MusicHolder>(){
     fun endSong(id:Int){
-        ServiceAPI.playing= false
+        if (id == -1)
+            ServiceAPI.playing= false
         notifyDataSetChanged()
         //notifyItemChanged(id)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicHolder =
         MusicHolder.create(parent,musicPlayingService)
-
-
     override fun getItemCount(): Int = musicList.size
 
     override fun onBindViewHolder(holder: MusicHolder, position: Int) =
@@ -34,7 +33,6 @@ class MusicHolder(override val containerView: View,private val musicPlayingServi
                 tag = android.R.drawable.ic_media_play
             }
         }
-
     }
     private fun close(){
         iv_cancel.visibility = View.GONE
@@ -61,6 +59,7 @@ class MusicHolder(override val containerView: View,private val musicPlayingServi
             iv_play.setOnClickListener {
                 isCurrentAndPlaying = music == ServiceAPI.currentTrack && ServiceAPI.playing
                 if (!isCurrentAndPlaying) {
+                    //ServiceAPI.next = true
                     playNewMusic(music)
                     changeState(true)
                     iv_cancel.visibility = View.VISIBLE
@@ -70,8 +69,7 @@ class MusicHolder(override val containerView: View,private val musicPlayingServi
                 }
             }
             iv_lyrics.setOnClickListener {
-//            val myDialogFragment = Dialog(music)
-//            myDialogFragment.show(manager, "myDialog")
+                LyricsDialog(music,containerView.context).createDialog()
             }
             iv_cancel.setOnClickListener {
                 close()
@@ -91,7 +89,6 @@ class MusicHolder(override val containerView: View,private val musicPlayingServi
         fun create(parent:ViewGroup,musicPlayingService: MusicPlayingService): MusicHolder{
             return MusicHolder(LayoutInflater.from(parent.context).inflate(R.layout.piece_of_music,
                 parent,false),musicPlayingService)
-
         }
     }
 }

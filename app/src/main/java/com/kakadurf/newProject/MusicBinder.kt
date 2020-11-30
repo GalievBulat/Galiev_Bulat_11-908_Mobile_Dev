@@ -15,8 +15,9 @@ class MusicBinder( val mediaManager: MediaManager) : Aidl.Stub() {
         currentTrack?.let { mediaManager.passTrack(it) }*//*
     }*/
 
-    override fun pass(composition: MusicPiece?) {
+    override fun pass(composition: MusicPiece?): Boolean {
         composition?.let { mediaManager.passTrack(it) }
+        return true
     }
 
     override fun resume() {
@@ -30,13 +31,15 @@ class MusicBinder( val mediaManager: MediaManager) : Aidl.Stub() {
         currentTrack?.let { mediaManager.passTrack(it) }*//*
     }*/
 
-    override fun onMusicComplete(listener: MListener?) {
+    override fun onMusicComplete(listener: MListener?): Boolean {
         this.listener = listener
+        return true
     }
 
     override fun stop():Boolean {
         mediaManager.stopTrack()
-        listener?.listen()
+        /*
+        listener?.listen()*/
         return true
     }
     override fun getPid(): Int{

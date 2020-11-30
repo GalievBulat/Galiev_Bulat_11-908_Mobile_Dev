@@ -27,7 +27,6 @@ class MediaManager(private val context: Context){
         binder?.listener?.listen()
     }
     fun pauseTrack(){
-
         if (mediaPlayer.isPlaying){
             mediaPlayer.pause()
         }

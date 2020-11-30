@@ -14,8 +14,6 @@ import com.kakadurf.newProject.helper.System
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-
     companion object{
         lateinit var musicAdapter:MusicAdapter
         val handler =  Handler{
@@ -25,8 +23,6 @@ class MainActivity : AppCompatActivity() {
         }
         var api:MusicPlayingService? = null
     }
-
-
     private lateinit var  br: BroadcastReceiver
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -35,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         api = ServiceAPI(applicationContext)
         render(Fr2())
-
         botnav_bn.setOnNavigationItemSelectedListener {
             when (it.itemId){
                 R.id.item_1-> {
@@ -46,23 +41,16 @@ class MainActivity : AppCompatActivity() {
                     render(Fr2())
                     true
                 }
-
                 else -> false
             }
         }
         botnav_bn.setOnNavigationItemReselectedListener {  }
-        supportFragmentManager
-
-         br =  StateReceiver()
+        botnav_bn.selectedItemId = R.id.item_2
+        br =  StateReceiver()
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         filter.addAction("com.kakadurf.media_action")
         filter.addDataScheme("kakadurf")
         this.registerReceiver(br, filter)
-
-
-        //setContentView(R.layout.the_main_thing)
-
-
         /*val view = RemoteViews(packageName,R.layout.alert)
         view.setOnClickPendingIntent(R.id.aaaaa, PendingIntent.getActivity(applicationContext,1,Intent(this,MainActivity::class.java),PendingIntent.FLAG_ONE_SHOT))
         val notification = NotificationCompat.Builder(applicationContext,"5")
@@ -75,7 +63,6 @@ class MainActivity : AppCompatActivity() {
         channel.description = "ho"
         service.createNotificationChannel(channel)
         service.notify(1,notification.build())*/
-
         /*val repository =  MusicRepository()
         musicAdapter = MusicAdapter(repository.getAll(),api)
         rv_main.adapter = musicAdapter
@@ -83,7 +70,6 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this,MusicHandlingService::class.java)
         startForegroundService(intent)
         bindService(intent,ConnectionToPlayer, Context.BIND_AUTO_CREATE)
-
     }
 
     private fun render ( fr: Fragment){
@@ -93,31 +79,17 @@ class MainActivity : AppCompatActivity() {
             commit()
         }
     }
-
-    override fun onStop() {
-        super.onStop()
-        /*api?.close()*/
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-
         unbindService(ConnectionToPlayer)
         this.unregisterReceiver(br)
     }
-
-
      object ConnectionToPlayer: ServiceConnection{
         override fun onServiceDisconnected(name: ComponentName?) {
-
             System.out.println("bye")
         }
-
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             api?.setBinder(Aidl.Stub.asInterface(service))
-
         }
     }
-
-
 }

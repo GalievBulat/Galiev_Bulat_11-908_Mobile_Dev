@@ -14,9 +14,12 @@ class StateReceiver : BroadcastReceiver() {
         when(intent.data.toString()){
             "kakadurf://resume"->serviceAPI?.resume()
             "kakadurf://pause"->serviceAPI?.pause()
-            "kakadurf://next"->serviceAPI?.nextFromCurrent()
-            "kakadurf://prev"->serviceAPI?.prevFromCurrent()
-            "kakadurf://stop"->serviceAPI?.stopMusic()
+            "kakadurf://next"->
+                serviceAPI?.nextFromCurrent()
+            "kakadurf://prev"->
+                serviceAPI?.prevFromCurrent()
+            "kakadurf://stop"->
+                serviceAPI?.stopMusic()
         }
     }
 }

@@ -13,9 +13,9 @@ interface Aidl {
 //    void next(int id);
 //    void prev(int id);
     void pause();
-    void pass(in MusicPiece composition);
+    boolean pass(in MusicPiece composition);
     int getPid();
-    void onMusicComplete(MListener listener);
+    boolean onMusicComplete(MListener listener);
 }
 
 parcelable MusicPiece;

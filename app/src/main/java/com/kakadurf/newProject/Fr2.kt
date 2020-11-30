@@ -23,11 +23,14 @@ class Fr2: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val musicSet= MusicRepository()
 
-        cMusicPiece?.let {
-            tv_name.text = cMusicPiece?.name
-            tv_album.text = cMusicPiece?.album
-            tv_author.text = cMusicPiece?.author
-            cMusicPiece?.cover?.let { iv_cover.setImageResource(it) }
+        cMusicPiece?.let { its->
+            tv_name.text = its.name
+            tv_album.text = its.album
+            tv_author.text = its.author
+            iv_cover.setImageResource(its.cover)
+            iv_lyrics.setOnClickListener {
+                let { it1 -> LyricsDialog(its, view.context).createDialog() }
+            }
         }
         musicClosingHandler =Handler{
             cMusicPiece = musicSet.get(it.what)
