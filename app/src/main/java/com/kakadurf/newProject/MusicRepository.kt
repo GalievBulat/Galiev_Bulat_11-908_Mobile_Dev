@@ -201,7 +201,8 @@ class MusicRepository {
        list.add(MusicPiece("The Jeweller's Hands",cover,0,"","Arctic Monkeys","Humbug"))*/
         }
     }
-     fun getAll():List<MusicPiece>{
+    val size = list.size
+    fun getAll():List<MusicPiece>{
         return list
     }
     fun get(int: Int):MusicPiece{
@@ -247,5 +248,6 @@ class MusicRepository {
     }
     fun find(musicPiece: MusicPiece):Int =
         list.indexOf(musicPiece)
+
 
 }

@@ -4,14 +4,12 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.annotation.DrawableRes
 import androidx.annotation.RawRes
+import com.kakadurf.newProject.interfaces.Media
 
 data class MusicPiece(val name:String,
 @DrawableRes val cover: Int,
-@RawRes val music:Int, val text:String, val author:String, val album:String): Parcelable, Media {
-    private var duration:Int= 0
-    //var playing: Boolean = false
-
-
+@RawRes val music:Int, val text:String, val author:String, val album:String): Parcelable,
+    Media {
     constructor(parcel: Parcel) : this(
         parcel.readString()?:"",
         parcel.readInt(),

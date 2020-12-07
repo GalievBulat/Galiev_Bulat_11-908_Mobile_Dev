@@ -1,4 +1,4 @@
-package com.kakadurf.newProject
+package com.kakadurf.newProject.interfaces
 
 import androidx.annotation.RawRes
 

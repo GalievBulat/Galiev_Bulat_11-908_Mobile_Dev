@@ -3,12 +3,13 @@ package com.kakadurf.newProject
 import android.content.Context
 import android.media.MediaPlayer
 import com.kakadurf.newProject.helper.System
+import com.kakadurf.newProject.interfaces.Media
 
 class MediaManager(private val context: Context){
     var binder: MusicBinder? = null
     private var mediaPlayer = MediaPlayer()
 
-    fun passTrack(media:Media){
+    fun passTrack(media: Media){
         if (mediaPlayer.isPlaying) {
             mediaPlayer.stop()
             mediaPlayer.reset()
@@ -17,6 +18,7 @@ class MediaManager(private val context: Context){
         mediaPlayer = MediaPlayer.create(context, media.getMedia())
         mediaPlayer.setOnPreparedListener { mediaPlayer.start() }
         mediaPlayer.setOnCompletionListener {
+            binder?.listener?.onMusicComplete()
             close()
         }
     }
@@ -24,7 +26,6 @@ class MediaManager(private val context: Context){
         mediaPlayer.stop()
         mediaPlayer.reset()
         System.println("hrrr")
-        binder?.listener?.listen()
     }
     fun pauseTrack(){
         if (mediaPlayer.isPlaying){
@@ -40,6 +41,10 @@ class MediaManager(private val context: Context){
         if (!mediaPlayer.isPlaying){
             mediaPlayer.start()
         }
+    }
+    fun destroy(){
+        mediaPlayer.stop()
+        mediaPlayer.release()
     }
     val isRunning
         get() = mediaPlayer.currentPosition>0

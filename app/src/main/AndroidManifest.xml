@@ -11,19 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--<receiver
-            android:name=".StateReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.kakadurf.media_action">
-                </action>
-                <data android:host="kakadurf">
-                </data>
-            </intent-filter>
-        </receiver>-->
 
-        <activity android:name=".MainActivity">
+
+        <activity android:name=".MainActivity" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
