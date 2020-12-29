@@ -10,7 +10,7 @@ import com.kakadurf.newProject.entities.Task
 import com.kakadurf.newProject.view.TaskAdapter
 import kotlinx.android.synthetic.main.tasks_list_fragment.*
 
-class TasksListFragment(private val list: List<Task>,
+class TasksListFragment(private var list: List<Task>?,
                         private val onEditTask :(Int)->Unit,
                         private val onAddTask: ()->Unit,
                         private val removeTask: (Int)->Unit): Fragment() {
@@ -34,10 +34,13 @@ class TasksListFragment(private val list: List<Task>,
         fab.setOnClickListener {
             onAddTask()
         }
-        taskAdapter = TaskAdapter(list, {
+        taskAdapter = TaskAdapter(list ?: arrayListOf(), {
             removeTask(it)
         }, onEditTask)
         recv1.adapter = taskAdapter
+    }
+    fun setList(list1:List<Task>){
+        list = list1
     }
 
 }

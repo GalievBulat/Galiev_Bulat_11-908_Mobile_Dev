@@ -61,12 +61,19 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope(){
                 tasksListFragment?.let { renderFragment(it) }
             }
         }
+        listUpdateFunction()
     }
     private val listUpdateFunction: ()->Unit = {
         launch {
             list = dao?.getList()
+            tasksListFragment?.run {
+                list?.let {setList(it) }
+                runOnUiThread {
+                    taskAdapter?.notifyDataSetChanged()
+                }
+            }
         }
-        tasksListFragment?.taskAdapter?.notifyDataSetChanged()
+
     }
     private fun renderFragment (fr: Fragment){
         val trans = supportFragmentManager.beginTransaction()
@@ -84,18 +91,15 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope(){
             onItemButtonListener)
     }
     private fun buildTasksListFragment() : TasksListFragment? =
-        list?.let {list->
             TasksListFragment(list, { i ->
                 tasksManipulatingFragment?.run {
                     setFlag(i)
                     renderFragment(this)
-                    listUpdateFunction()
                 }
             }, {
                 tasksManipulatingFragment?.run {
                     setFlag(ADDING_NEW_TASK_FLAG)
                     renderFragment(this)
-                    listUpdateFunction()
                 }
             }, {
                 dao?.functionInBackground {
@@ -103,7 +107,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope(){
                 }
                 listUpdateFunction()
             })
-        }
     private fun TasksDao.functionInBackground(daoFun: TasksDao.()->Unit){
         launch {
             daoFun()
