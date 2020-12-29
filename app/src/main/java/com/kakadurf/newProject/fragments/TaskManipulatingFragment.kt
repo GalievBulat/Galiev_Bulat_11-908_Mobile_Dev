@@ -11,11 +11,11 @@ import com.kakadurf.newProject.entities.Task
 import com.kakadurf.newProject.interfaces.Promise
 import kotlinx.android.synthetic.main.task_manipulating_fragment.*
 
-class TaskManipulatingFragment(private val elementId: Int,
-                               private val onAdd: (String, String)->Unit,
+class TaskManipulatingFragment(private val onAdd: (String, String)->Unit,
                                private val onGet: (Int)-> Promise<Task?>,
                                private val onUpdate: (Task)->Unit,
                                private val onButtonClicked: ()->Unit): Fragment() {
+    private var elementId: Int? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,23 +57,26 @@ class TaskManipulatingFragment(private val elementId: Int,
         super.onViewCreated(view, savedInstanceState)
         if(elementId == -1){
             bn_confirm.setOnClickListener {
-                onAdd(et_title.text.toString(),et_desc.text.toString())
+                onAdd(et_title.text.toString(), et_desc.text.toString())
                 onButtonClicked()
             }
         }else{
-            val promise = onGet(elementId)
+            val promise = elementId?.let { onGet(it) }
             bn_confirm.setOnClickListener {
-                val task = promise.getWhatWasPromised()
+                val task = promise?.getWhatWasPromised()
                 if (task == null){
                     Log.d("hi","wtf")
                 }
-                task?.let {
-                    task.title = et_title.text.toString()
-                    task.description = et_desc.text.toString()
-                    onUpdate(it)
+                task?.run {
+                    title = et_title.text.toString()
+                    description = et_desc.text.toString()
+                    onUpdate(this)
                     onButtonClicked()
                 }
             }
         }
+    }
+    fun setFlag(flag: Int){
+        elementId = flag
     }
 }

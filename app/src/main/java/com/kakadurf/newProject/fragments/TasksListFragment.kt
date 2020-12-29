@@ -36,7 +36,6 @@ class TasksListFragment(private val list: List<Task>,
         }
         taskAdapter = TaskAdapter(list, {
             removeTask(it)
-            taskAdapter?.notifyDataSetChanged()
         }, onEditTask)
         recv1.adapter = taskAdapter
     }

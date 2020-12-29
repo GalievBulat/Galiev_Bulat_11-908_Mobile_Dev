@@ -9,6 +9,7 @@ import com.kakadurf.newProject.dao.TasksDao
 import com.kakadurf.newProject.entities.Task
 import com.kakadurf.newProject.fragments.TaskManipulatingFragment
 import com.kakadurf.newProject.fragments.TasksListFragment
+import com.kakadurf.newProject.helper.CoroutinePromise
 import com.kakadurf.newProject.interfaces.Promise
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -21,6 +22,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope(){
     private var db: TasksDB? = null
     private var dao: TasksDao? = null
     private var list: List<Task>?  = null
+    private var tasksListFragment: TasksListFragment? = null
+    private var tasksManipulatingFragment: TaskManipulatingFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +31,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope(){
         launch {
             db = TasksDB.getInstance(applicationContext)
             dao = db?.dao()
-            list = dao?.getList()?.also {
-                renderFragment(buildTasksListFragment(it))
-            }
+            list = dao?.getList()
+            tasksListFragment = buildTasksListFragment()?.also { renderFragment(it) }
         }
+        tasksManipulatingFragment = buildTaskManipulationFragment()
     }
 
     override fun onDestroy() {
@@ -41,47 +44,66 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope(){
     }
     private val addingFunction : (String, String)->Unit = { title, description->
         dao?.functionInBackground { add(Task(title, description)) }
-        /*
-        launch {
-            dao?.add(Task(title, description))
-            Log.d("hi","added")
-        }*/
     }
     private val gettingFunction : (Int) -> Promise<Task?> = {
-         Promise {async{
-             dao?.get(it)
-         }}
+        CoroutinePromise {
+            async {
+                dao?.get(it)
+            }
+        }
     }
     private val updatingFunction: (Task)->Unit = {
         dao?.functionInBackground { dao?.update(it) }
-        /*launch {
-            dao?.update(it)
-        }*/
     }
-    private val onExecutionListener:()->Unit = {
-        list?.let {
-            renderFragment(buildTasksListFragment(it))
+    private val onItemButtonListener: ()->Unit ={
+        launch {
+            list = dao?.getList()?.also {
+                tasksListFragment?.let { renderFragment(it) }
+            }
         }
     }
+    private val listUpdateFunction: ()->Unit = {
+        launch {
+            list = dao?.getList()
+        }
+        tasksListFragment?.taskAdapter?.notifyDataSetChanged()
+    }
     private fun renderFragment (fr: Fragment){
-            val trans = supportFragmentManager.beginTransaction()
-            with(trans) {
-                replace(R.id.frl_frame, fr)
-                commit()
-            }
+        val trans = supportFragmentManager.beginTransaction()
+        with(trans) {
+            replace(R.id.frl_frame, fr)
+            commit()
+        }
     }
 
-    private fun buildTaskManipulationFragment(flag: Int) : TaskManipulatingFragment{
-        return TaskManipulatingFragment(flag, addingFunction, gettingFunction,updatingFunction,onExecutionListener)
+    private fun buildTaskManipulationFragment() : TaskManipulatingFragment{
+        return TaskManipulatingFragment(
+            addingFunction,
+            gettingFunction,
+            updatingFunction,
+            onItemButtonListener)
     }
-    private fun buildTasksListFragment(list: List<Task>) : TasksListFragment =
-        TasksListFragment(list, {i ->
-            renderFragment(buildTaskManipulationFragment(i))
-        },{
-            renderFragment(buildTaskManipulationFragment(ADDING_NEW_TASK_FLAG))
-        },{
-            //dao.delete(it)
-        })
+    private fun buildTasksListFragment() : TasksListFragment? =
+        list?.let {list->
+            TasksListFragment(list, { i ->
+                tasksManipulatingFragment?.run {
+                    setFlag(i)
+                    renderFragment(this)
+                    listUpdateFunction()
+                }
+            }, {
+                tasksManipulatingFragment?.run {
+                    setFlag(ADDING_NEW_TASK_FLAG)
+                    renderFragment(this)
+                    listUpdateFunction()
+                }
+            }, {
+                dao?.functionInBackground {
+                    deleteById(it)
+                }
+                listUpdateFunction()
+            })
+        }
     private fun TasksDao.functionInBackground(daoFun: TasksDao.()->Unit){
         launch {
             daoFun()
