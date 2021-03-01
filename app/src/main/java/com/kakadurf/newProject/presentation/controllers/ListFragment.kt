@@ -1,4 +1,4 @@
-package com.kakadurf.hw_sem2.controllers
+package com.kakadurf.hw_sem2.presentation.controllers
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -12,13 +12,11 @@ import android.widget.SearchView.OnQueryTextListener
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.LocationServices
 import com.kakadurf.hw_sem2.R
-import com.kakadurf.hw_sem2.model.services.SpotAdapter
-import com.kakadurf.hw_sem2.model.data.SpotDTO
-import com.kakadurf.hw_sem2.model.data.TemperatureData
-import com.kakadurf.hw_sem2.model.services.WeatherProviderFacade
+import com.kakadurf.hw_sem2.presentation.adapters.SpotAdapter
+import com.kakadurf.hw_sem2.presentation.models.SpotDTO
+import com.kakadurf.hw_sem2.data.services.WeatherProviderFacade
 import kotlinx.android.synthetic.main.fragment_weather_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -62,6 +60,7 @@ class ListFragment(val onChoice: (Int)-> Unit): Fragment(), CoroutineScope{
                         launch {
                             val str =
                                 WeatherProviderFacade.getLocalWeatherList(lt, ln)
+                            Log.d("hi", "got spots")
                             val dtoSet: ArrayList<SpotDTO> = ArrayList()
                             str.forEach { weather ->
                                 dtoSet.add(
@@ -69,14 +68,17 @@ class ListFragment(val onChoice: (Int)-> Unit): Fragment(), CoroutineScope{
                                         weather.id,
                                         weather.name,
                                         weather.mainThing.temp
-                                    ))
+                                    )
+                                )
                             }
-                            dtoSet.forEach({})
                             activity.runOnUiThread {
-                                recyclerView_main.adapter = SpotAdapter(dtoSet) { int: Int ->
-                                    onChoice(int)
-                                    Log.d("hi", int.toString())
-                                }
+                                recyclerView_main.adapter =
+                                    SpotAdapter(
+                                        dtoSet
+                                    ) { int: Int ->
+                                        onChoice(int)
+                                        Log.d("hi", int.toString())
+                                    }
                             }
                         }
                     }

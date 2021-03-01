@@ -1,47 +1,46 @@
-package com.kakadurf.hw_sem2.model.data
+package com.kakadurf.hw_sem2.domain
+
 
 import com.google.gson.annotations.SerializedName
-data class MessageHttp(@SerializedName("list")
-                   var spots: List<WeatherResponse>)
+
 data class WeatherResponse(
     @SerializedName("id")
     var id: Int,
-    @SerializedName("clouds")
-    var clouds: Clouds,
-    @SerializedName("cod")
-    var cod: Int,
-    @SerializedName("coord")
-    var coord: Coord,
-    @SerializedName("dt")
-    var dt: Int,
+//    @SerializedName("clouds")
+//    var clouds: Clouds,
+//    @SerializedName("cod")
+//    var cod: Int,
+//    @SerializedName("coord")
+//    var coord: Coord,
+//    @SerializedName("dt")
+//    var dt: Int,
     @SerializedName("main")
     var mainThing: MainThing,
     @SerializedName("name")
     var name: String,
-    @SerializedName("sys")
-    var sys: Sys,
-    @SerializedName("timezone")
-    var timezone: Int,
-    @SerializedName("visibility")
-    var visibility: Int,
-    @SerializedName("weather")
-    var weather: List<Weather>,
+//    @SerializedName("sys")
+//    var sys: Sys,
+//    @SerializedName("timezone")
+//    var timezone: Int,
+//    @SerializedName("visibility")
+//    var visibility: Int,
+//    @SerializedName("weather")
+//    var weather: List<Weather>,
     @SerializedName("wind")
     var wind: Wind
 )
 
-data class Clouds(
+/*data class Clouds(
     @SerializedName("all")
     var all: Int
-)
+)*/
 
-data class Coord(
+/*data class Coord(
     @SerializedName("lat")
     var lat: Double,
     @SerializedName("lon")
     var lon: Double
-)
-
+)*/
 data class MainThing(
     @SerializedName("feels_like")
     var feelsLike: Double,
@@ -57,6 +56,8 @@ data class MainThing(
     var tempMin: Double
 )
 
+
+/*
 data class Sys(
     @SerializedName("country")
     var country: String,
@@ -69,7 +70,9 @@ data class Sys(
     @SerializedName("type")
     var type: Int
 )
+*/
 
+/*
 data class Weather(
     @SerializedName("description")
     var description: String,
@@ -80,10 +83,11 @@ data class Weather(
     @SerializedName("main")
     var main: String
 )
+*/
 
 data class Wind(
     @SerializedName("deg")
-    var deg: Int,
-    @SerializedName("speed")
-    var speed: Double
+    var deg: Int
+    /*@SerializedName("speed")
+    var speed: Double*/
 )

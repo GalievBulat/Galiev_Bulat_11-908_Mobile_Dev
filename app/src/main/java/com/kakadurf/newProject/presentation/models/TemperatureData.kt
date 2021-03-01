@@ -1,10 +1,8 @@
-package com.kakadurf.hw_sem2.model.data
+package com.kakadurf.hw_sem2.presentation.models
 
 import android.util.Log
 import androidx.annotation.ColorInt
-import androidx.annotation.IdRes
 import com.kakadurf.hw_sem2.R
-import kotlinx.android.synthetic.main.fragment_extended_weather.view.*
 
 
 enum class TemperatureData(@ColorInt val colour: Int) {

@@ -1,15 +1,15 @@
-package com.kakadurf.hw_sem2.controllers
+package com.kakadurf.hw_sem2.presentation.controllers
 
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.Snackbar
 import com.kakadurf.hw_sem2.R
-import com.kakadurf.hw_sem2.controllers.helpers.PermissionHelper
+import com.kakadurf.hw_sem2.presentation.helpers.PermissionHelper
+import com.kakadurf.hw_sem2.data.db.DataBase
+import com.kakadurf.hw_sem2.data.services.WeatherProviderFacade
 import kotlinx.android.synthetic.main.layout_activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,15 +24,22 @@ class ActivityMain : AppCompatActivity(), CoroutineScope {
     private val onChoice: (Int)->Unit = {
         Log.d("hi", "onChoose")
         swapFragment(
-            ExtendedWeatherScreenFragment.create(it)
+            ExtendedWeatherScreenFragment.create(
+                it
+            )
         )
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_activity_main)
+        WeatherProviderFacade.injectDb(DataBase.getInstance(applicationContext))
         if(permissionService.checkPerms()){
             Log.d("hi","has perms")
-            swapFragment(ListFragment(onChoice))
+            swapFragment(
+                ListFragment(
+                    onChoice
+                )
+            )
         } else {
             permissionService.requestPerm()
         }
@@ -44,7 +51,11 @@ class ActivityMain : AppCompatActivity(), CoroutineScope {
         grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if(permissionService.onRequestPermissionsResult(requestCode, grantResults))
-            swapFragment(ListFragment (onChoice))
+            swapFragment(
+                ListFragment(
+                    onChoice
+                )
+            )
         else
             Snackbar.make(fl_main,"permissions denied", Snackbar.LENGTH_LONG).show()
     }

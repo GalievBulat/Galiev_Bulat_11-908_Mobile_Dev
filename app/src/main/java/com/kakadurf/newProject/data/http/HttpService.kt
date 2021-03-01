@@ -1,13 +1,12 @@
-package com.kakadurf.hw_sem2.model.services
+package com.kakadurf.hw_sem2.data.http
 
-import com.kakadurf.hw_sem2.model.data.MessageHttp
-import com.kakadurf.hw_sem2.model.data.WeatherResponse
+import com.kakadurf.hw_sem2.domain.WeatherResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface HttpService {
     @GET("data/2.5/find")
-     abstract suspend fun getLocalSpots(@Query("lat") latitude : Double,
+    suspend fun getLocalSpots(@Query("lat") latitude : Double,
                                         @Query("lon") longitude : Double,
                                         @Query("cnt") cnt: Int ): MessageHttp
     @GET("data/2.5/weather")

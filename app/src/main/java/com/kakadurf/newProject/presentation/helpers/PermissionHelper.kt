@@ -1,22 +1,19 @@
-package com.kakadurf.hw_sem2.controllers.helpers
+package com.kakadurf.hw_sem2.presentation.helpers
 
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
-import android.util.Log
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import com.kakadurf.hw_sem2.controllers.ExtendedWeatherScreenFragment
-import com.kakadurf.hw_sem2.controllers.ListFragment
-import com.kakadurf.hw_sem2.controllers.PERMISSION_CODE
+import com.kakadurf.hw_sem2.presentation.controllers.ActivityMain
+import com.kakadurf.hw_sem2.presentation.controllers.PERMISSION_CODE
 
 class PermissionHelper (private val context: Activity){
+    val d = ActivityMain::class.java
     fun checkPerms(): Boolean {
         if (ActivityCompat.checkSelfPermission(context,
                 Manifest.permission.ACCESS_FINE_LOCATION)  != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(context,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.d("hi","no perms")
             return false
         }
         return true

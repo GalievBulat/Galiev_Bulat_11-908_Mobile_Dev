@@ -1,4 +1,4 @@
-package com.kakadurf.hw_sem2.controllers
+package com.kakadurf.hw_sem2.presentation.controllers
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.kakadurf.hw_sem2.R
-import com.kakadurf.hw_sem2.model.services.WeatherProviderFacade
-import com.kakadurf.hw_sem2.model.data.WindDirection
+import com.kakadurf.hw_sem2.data.services.WeatherProviderFacade
+import com.kakadurf.hw_sem2.domain.WindDirection
 import kotlinx.android.synthetic.main.fragment_extended_weather.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -42,15 +42,18 @@ class ExtendedWeatherScreenFragment: Fragment(), CoroutineScope {
         cityId?.let {
             launch {
                 val weatherResponse =
-                    WeatherProviderFacade.getSpecificWeatherById(
+                    WeatherProviderFacade.getSpecificWeather(
                         it
                     )
                 activity?.runOnUiThread {
-                    tv_big_tempr.text = "${weatherResponse.mainThing.temp} celsius"
-                    tv_city_name.text = "city: ${weatherResponse.name}"
-                    tv_humidity.text = "humidity: ${weatherResponse.mainThing.humidity}"
-                    tv_wind_data.text = "wind direction: ${WindDirection.
-                    create(weatherResponse.wind.deg).toString()}"
+                    weatherResponse?.run {
+                        tv_big_tempr.text = "${mainThing.temp} celsius"
+                        tv_city_name.text = "city: $name"
+                        tv_humidity.text = "humidity: ${mainThing.humidity}"
+                        tv_wind_data.text =
+                            "wind direction: ${WindDirection.create(wind.deg)
+                                .toString()}"
+                    }
                 }
             }
         }
