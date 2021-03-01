@@ -2,18 +2,17 @@ package com.kakadurf.hw_sem2.data.services
 
 import android.util.Log
 import com.kakadurf.hw_sem2.API_KEY
-import com.kakadurf.hw_sem2.presentation.controllers.BASE_URL
+import com.kakadurf.hw_sem2.data.db.CacheWorkingService
 import com.kakadurf.hw_sem2.data.db.DataBase
+import com.kakadurf.hw_sem2.data.http.HttpService
 import com.kakadurf.hw_sem2.domain.WeatherResponse
+import com.kakadurf.hw_sem2.presentation.controllers.BASE_URL
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import java.util.concurrent.TimeUnit
-import com.kakadurf.hw_sem2.data.db.DbCachedWeather.Companion.mapFromResponse
-import com.kakadurf.hw_sem2.data.db.DbCachedWeather.Companion.mapToResponse
-import com.kakadurf.hw_sem2.data.http.HttpService
 
 //NO DAGGER(
 const val API_QUERY = "appid"
@@ -42,55 +41,42 @@ object WeatherProviderFacade{
 
     private val service: HttpService = retrofit.create(
         HttpService::class.java)
-    private var db : DataBase? = null
-    //ВЫНЕСТИ БД В КЛАСС
+    private lateinit var cacheService: CacheWorkingService
     fun injectDb(db: DataBase){
-        WeatherProviderFacade.db = db
+        cacheService = CacheWorkingService(db)
     }
     suspend fun getLocalWeatherList(latitude: Double, longitude: Double): List<WeatherResponse>{
         return try {
             val spots = service.getLocalSpots(latitude, longitude, 10).spots
             spots.let {
-                db?.run {
-                    dao().updateLocalSpots(it.map { mapFromResponse(it) })
-                }
+                cacheService.putWeatherInCache(it)
             }
             spots
         } catch (e: IOException){
             Log.d("hi", "error")
-            db?.run {
-                dao().getSavedLocalSpots().map { mapToResponse(it) }
-            } ?: emptyList()
+            cacheService.getLocalWeatherFromCache()
         }
     }
     suspend fun getSpecificWeather(cityName: String): WeatherResponse?{
         return try {
             if (cityName.isNotEmpty())
                 service.getSpot(cityName).also {
-                    db?.run {
-                        dao().insertWeather(mapFromResponse(it))
-                    }
+                    cacheService.saveToCache(it)
                 }
             else
                 null
             } catch (e: IOException){
                 Log.d("hi", "error")
-                db?.run {
-                    dao().getSavedSpotByName(cityName)
-                }?.let { mapToResponse(it) }
+                cacheService.getFromCache(cityName)
         }
     }
     suspend fun getSpecificWeather(cityId: Int): WeatherResponse?{
         return try {
                 service.getSpotById(cityId).also {
-                    db?.run {
-                        dao().insertWeather(mapFromResponse(it))
-                    }
+                    cacheService.saveToCache(it)
                 }
         } catch (e: IOException){
-            db?.run {
-                mapToResponse(dao().getSavedSpotById(cityId))
-            }
+            cacheService.getFromCache(cityId)
         }
     }
 }

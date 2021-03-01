@@ -9,7 +9,9 @@ import com.kakadurf.hw_sem2.R
 import com.kakadurf.hw_sem2.data.services.WeatherProviderFacade
 import com.kakadurf.hw_sem2.domain.WindDirection
 import kotlinx.android.synthetic.main.fragment_extended_weather.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class ExtendedWeatherScreenFragment: Fragment(), CoroutineScope {
@@ -48,11 +50,14 @@ class ExtendedWeatherScreenFragment: Fragment(), CoroutineScope {
                 activity?.runOnUiThread {
                     weatherResponse?.run {
                         tv_big_tempr.text = "${mainThing.temp} celsius"
+                        tv_feels_like.text = "feels like: ${mainThing.feelsLike} celsius"
                         tv_city_name.text = "city: $name"
                         tv_humidity.text = "humidity: ${mainThing.humidity}"
                         tv_wind_data.text =
                             "wind direction: ${WindDirection.create(wind.deg)
-                                .toString()}"
+                                .toString().toLowerCase()}"
+                        tv_pressure.text =
+                            "pressure: ${mainThing.pressure}"
                     }
                 }
             }

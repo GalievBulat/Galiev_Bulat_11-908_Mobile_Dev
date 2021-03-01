@@ -11,6 +11,7 @@ class CacheToDataConverter {
     fun mapFromResponse(response: WeatherResponse): DbCachedWeather {
         with(response) {
             return DbCachedWeather(
+
                 id, name, wind.deg,
                 mainThing.temp, false,
                 mainThing.feelsLike,

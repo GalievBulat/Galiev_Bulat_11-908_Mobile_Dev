@@ -5,43 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_city_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="loading..."
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@id/tv_humidity"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_big_tempr" />
+    <ImageView
+        android:id="@+id/iv_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_wind"
+        app:layout_constraintEnd_toEndOf="@+id/iv_feels_like"
+        app:layout_constraintStart_toStartOf="@+id/iv_feels_like"
+        app:layout_constraintTop_toTopOf="@+id/iv_spot"
+        app:srcCompat="@color/dark" />
 
     <TextView
-        android:id="@+id/tv_humidity"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_big_tempr_header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="loading..."
-        app:layout_constraintBottom_toBottomOf="@id/tv_wind_data"
+        android:layout_marginBottom="16dp"
+        android:elevation="10dp"
+        android:fontFamily="sans-serif-thin"
+        android:foregroundGravity="clip_horizontal"
+        android:gravity="center"
+        android:text="Temperature is:"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_big_tempr"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_city_name" />
-
-    <TextView
-        android:id="@+id/tv_wind_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="loading..."
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_humidity" />
+        app:layout_constraintTop_toTopOf="@+id/iv_clouds"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/tv_big_tempr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="128dp"
         android:elevation="10dp"
-        android:fontFamily="serif"
+        android:fontFamily="sans-serif-light"
         android:foregroundGravity="clip_horizontal"
         android:gravity="center"
         android:text="loading..."
@@ -50,33 +48,142 @@
         app:layout_constraintBottom_toTopOf="@+id/tv_city_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_city_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="serif"
+        android:text="loading..."
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/tv_feels_like"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_spot"
+        app:layout_constraintTop_toTopOf="@id/divider" />
+
+    <TextView
+        android:id="@+id/tv_feels_like"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="serif"
+        android:text="loading..."
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/tv_wind_data"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_feels_like"
+        app:layout_constraintTop_toBottomOf="@+id/tv_city_name" />
+
+    <TextView
+        android:id="@+id/tv_humidity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="serif"
+        android:gravity="right"
+        android:text="loading..."
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/tv_pressure"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_wind_data" />
+
+    <TextView
+        android:id="@+id/tv_wind_data"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="serif"
+        android:text="loading..."
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/tv_humidity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_wind"
+        app:layout_constraintTop_toBottomOf="@id/tv_feels_like" />
+
+    <TextView
+        android:id="@+id/tv_pressure"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="serif"
+        android:gravity="right"
+        android:text="loading..."
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_humidity" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="3dp"
+        android:layout_height="2dp"
         android:layout_marginTop="24dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toTopOf="@+id/tv_city_name"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_big_tempr"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/iv_clouds"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:adjustViewBounds="false"
-        android:background="@android:color/darker_gray"
+        android:background="@drawable/sh_grad"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/divider"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/cls" />
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@+id/tv_wind_data"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_humidity" />
+
+    <ImageView
+        android:id="@+id/iv_spot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/tv_feels_like"
+        app:layout_constraintEnd_toStartOf="@+id/tv_city_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider"
+        app:srcCompat="@android:drawable/ic_dialog_map" />
+
+    <ImageView
+        android:id="@+id/iv_feels_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/dark"
+        app:layout_constraintBottom_toTopOf="@+id/tv_wind_data"
+        app:layout_constraintEnd_toStartOf="@+id/tv_feels_like"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_spot"
+        app:srcCompat="@android:drawable/ic_menu_view" />
+
+    <ImageView
+        android:id="@+id/iv_wind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/tv_humidity"
+        app:layout_constraintEnd_toStartOf="@+id/tv_wind_data"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_feels_like"
+        app:srcCompat="@android:drawable/ic_menu_myplaces" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

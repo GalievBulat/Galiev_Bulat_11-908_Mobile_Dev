@@ -14,9 +14,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.LocationServices
 import com.kakadurf.hw_sem2.R
+import com.kakadurf.hw_sem2.data.services.WeatherProviderFacade
 import com.kakadurf.hw_sem2.presentation.adapters.SpotAdapter
 import com.kakadurf.hw_sem2.presentation.models.SpotDTO
-import com.kakadurf.hw_sem2.data.services.WeatherProviderFacade
 import kotlinx.android.synthetic.main.fragment_weather_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
