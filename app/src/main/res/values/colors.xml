@@ -12,5 +12,7 @@
     <color name="weather_normal">#4CAF50</color>
     <color name="weather_warm">#FF5722</color>
     <color name="weather_hot">#F44336</color>
+    <color name="dark">#353535</color>
+
 
 </resources>

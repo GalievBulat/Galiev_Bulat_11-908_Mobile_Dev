@@ -1,4 +1,4 @@
-package com.kakadurf.hw_sem2.model.data
+package com.kakadurf.hw_sem2.domain
 
 
 enum class WindDirection {

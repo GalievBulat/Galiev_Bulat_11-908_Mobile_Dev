@@ -1,4 +1,4 @@
-package com.kakadurf.hw_sem2.model.services
+package com.kakadurf.hw_sem2.presentation.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -6,14 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kakadurf.hw_sem2.R
-import com.kakadurf.hw_sem2.model.data.SpotDTO
+import com.kakadurf.hw_sem2.presentation.models.SpotDTO
+import com.kakadurf.hw_sem2.presentation.models.TemperatureData
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.view_spot_element.*
 
 class SpotAdapter(private val itemList : List<SpotDTO>,
                   private val onClickListener: (Int)-> Unit) : RecyclerView.Adapter<SpotHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpotHolder {
-       return SpotHolder.builder(parent).also {
+       return SpotHolder.builder(
+           parent
+       ).also {
            it.onClickListener = onClickListener }
     }
 
@@ -43,7 +46,7 @@ class SpotHolder( override val containerView: View) : RecyclerView.ViewHolder(co
     fun bind(spot: SpotDTO){
         tv_spot_name.text = spot.name
         tv_tempr.text = spot.tempr.toString()
-        spot.temprData?.colour?.let{
+        TemperatureData.create(spot.tempr)?.colour?.let{
             Log.d("hi",it.toString())
             Log.d("hi",R.color.weather_normal.toString())
             tv_tempr.setTextColor(it)

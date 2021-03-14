@@ -27,4 +27,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
     </SearchView>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView_main" />
 </androidx.constraintlayout.widget.ConstraintLayout>
