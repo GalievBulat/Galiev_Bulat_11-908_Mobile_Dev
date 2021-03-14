@@ -38,7 +38,6 @@ object WeatherProviderFacade{
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-
     private val service: HttpService = retrofit.create(
         HttpService::class.java)
     private lateinit var cacheService: CacheWorkingService
